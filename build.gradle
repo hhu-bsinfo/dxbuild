@@ -3,6 +3,8 @@ plugins {
     id 'groovy'
 
     id 'maven-publish'
+
+    id 'com.jfrog.bintray' version '1.7.3'
 }
 
 sourceCompatibility = 1.8
@@ -11,7 +13,7 @@ targetCompatibility = 1.8
 
 group = 'de.hhu.bsinfo'
 
-version = '1.0'
+version = '1.0.0'
 
 repositories {
 
@@ -20,23 +22,6 @@ repositories {
     maven {
 
         url "https://plugins.gradle.org/m2/"
-    }
-}
-
-publishing {
-
-    publications {
-
-        mavenGroovy(MavenPublication) {
-
-            groupId project.group
-
-            artifactId project.name
-
-            version project.version
-
-            from components.java
-        }
     }
 }
 
@@ -50,6 +35,8 @@ dependencies {
     implementation gradleApi()
 
     implementation localGroovy()
-    
+
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'publish.gradle'
