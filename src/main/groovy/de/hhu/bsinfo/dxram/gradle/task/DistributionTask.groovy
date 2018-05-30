@@ -33,7 +33,7 @@ class DistributionTask extends DefaultTask {
 
         project.copy {
 
-            from("${project.rootDir}/dxram/src/main/dist") {
+            from("${project.rootDir}/core/src/main/dist") {
 
                 it.include("**/*")
             }
