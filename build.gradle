@@ -1,0 +1,55 @@
+plugins {
+
+    id 'groovy'
+
+    id 'maven-publish'
+}
+
+sourceCompatibility = 1.8
+
+targetCompatibility = 1.8
+
+group = 'de.hhu.bsinfo'
+
+repositories {
+
+    mavenCentral()
+
+    maven {
+
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+publishing {
+
+    publications {
+
+        mavenGroovy(MavenPublication) {
+
+            groupId 'de.hhu.bsinfo'
+
+            artifactId 'dxram-plugin'
+
+            version '3.2'
+
+            from components.java
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+
+    gradleVersion = "4.7"
+}
+
+dependencies {
+
+    implementation gradleApi()
+
+    implementation localGroovy()
+
+    implementation "org.hidetake:gradle-ssh-plugin:2.9.0"
+
+    testCompile 'junit:junit:4.12'
+}
