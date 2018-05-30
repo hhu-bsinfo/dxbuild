@@ -29,8 +29,6 @@ class DistributionTask extends DefaultTask {
 
         extension.outputDir = targetDir == null ? extension.outputDir : targetDir
 
-        System.err.println(extension.outputDir)
-
         project.copy {
 
             from("${project.rootDir}/core/src/main/dist") {

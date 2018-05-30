@@ -30,6 +30,20 @@ task wrapper(type: Wrapper) {
     gradleVersion = "4.7"
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+
+    classifier = 'sources'
+
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+
+    classifier = 'javadoc'
+
+    from javadoc.destinationDir
+}
+
 dependencies {
 
     implementation gradleApi()
@@ -37,6 +51,13 @@ dependencies {
     implementation localGroovy()
 
     testCompile 'junit:junit:4.12'
+}
+
+artifacts {
+
+    archives sourcesJar
+
+    archives javadocJar
 }
 
 apply from: 'publish.gradle'

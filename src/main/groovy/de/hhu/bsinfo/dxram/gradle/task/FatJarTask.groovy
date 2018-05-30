@@ -40,8 +40,6 @@ class FatJarTask extends Jar {
 
         def extension = project.extensions.getByType(DXRamExtension)
 
-        System.err.println(extension.outputDir)
-
         project.copy {
 
             from("${project.buildDir}/libs") {

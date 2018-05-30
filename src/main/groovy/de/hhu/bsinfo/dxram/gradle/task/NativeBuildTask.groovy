@@ -23,8 +23,6 @@ class NativeBuildTask extends DefaultTask {
 
         def extension = project.extensions.getByType(DXRamExtension)
 
-        System.err.println(extension.outputDir)
-
         project.copy {
 
             from(project.findProject(':native').buildDir) {
