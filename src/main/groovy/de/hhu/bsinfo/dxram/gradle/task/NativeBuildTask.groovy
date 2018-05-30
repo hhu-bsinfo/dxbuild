@@ -15,7 +15,7 @@ class NativeBuildTask extends DefaultTask {
 
         description = "Copies all native libraries to the build directory"
 
-        dependsOn(':dxram-native:build')
+        dependsOn(':native:build')
     }
 
     @TaskAction
@@ -27,7 +27,7 @@ class NativeBuildTask extends DefaultTask {
 
         project.copy {
 
-            from(project.findProject(':dxram-native').buildDir) {
+            from(project.findProject(':native').buildDir) {
 
                 include '**/*.so'
             }
