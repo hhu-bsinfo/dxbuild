@@ -11,6 +11,8 @@ targetCompatibility = 1.8
 
 group = 'de.hhu.bsinfo'
 
+version = '1.0'
+
 repositories {
 
     mavenCentral()
@@ -27,11 +29,11 @@ publishing {
 
         mavenGroovy(MavenPublication) {
 
-            groupId 'de.hhu.bsinfo'
+            groupId project.group
 
-            artifactId 'dxram-plugin'
+            artifactId project.name
 
-            version '3.2'
+            version project.version
 
             from components.java
         }
@@ -48,8 +50,6 @@ dependencies {
     implementation gradleApi()
 
     implementation localGroovy()
-
-    implementation "org.hidetake:gradle-ssh-plugin:2.9.0"
-
+    
     testCompile 'junit:junit:4.12'
 }
