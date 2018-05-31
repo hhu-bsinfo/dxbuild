@@ -50,7 +50,9 @@ dependencies {
 
     implementation localGroovy()
 
-    testCompile 'junit:junit:4.12'
+    implementation 'com.squareup:javapoet:1.11.1'
+
+    testImplementation 'junit:junit:4.12'
 }
 
 artifacts {
