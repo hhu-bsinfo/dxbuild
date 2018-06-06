@@ -7,7 +7,7 @@ import org.gradle.api.InvalidUserDataException
 
 import javax.lang.model.element.Modifier
 
-class BuildConfigExtension {
+class BuildConfig {
 
     public static final String NAME = "buildConfig"
 
@@ -15,7 +15,9 @@ class BuildConfigExtension {
 
     String packageName = ""
 
-    List<FieldSpec> fields = new ArrayList<>()
+    Map<String, FieldSpec> fields = new HashMap<>()
+
+    String superBuildConfig
 
     def <T> void typedField(String name, Class<T> type, T value) {
 
@@ -36,7 +38,7 @@ class BuildConfigExtension {
                 .initializer(getFormat(value), value)
                 .build();
 
-        fields.add(fieldSpec);
+        fields.put(name, fieldSpec);
     }
 
     void field(String name, String packageName, String className, String initializer) {
@@ -48,7 +50,11 @@ class BuildConfigExtension {
                 .initializer("\$L", initializer)
                 .build()
 
-        fields.add(fieldSpec)
+        fields.put(name, fieldSpec)
+    }
+
+    void inheritsFrom(String buildConfig) {
+        superBuildConfig = buildConfig
     }
 
     private static <T> String getFormat(T value) {

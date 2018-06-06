@@ -1,15 +1,9 @@
 package de.hhu.bsinfo.dxram.gradle.task
 
-import de.hhu.bsinfo.dxram.gradle.extension.DXRamExtension
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.options.Option
 
 class DistributionTask extends DefaultTask {
-
-    @Option(option = "target", description = "The target directory")
-    String targetDir
 
     public static final String NAME = "installDist"
 
@@ -23,20 +17,16 @@ class DistributionTask extends DefaultTask {
     }
 
     @TaskAction
-    def action() {
-
-        def extension = project.extensions.getByType(DXRamExtension)
-
-        extension.outputDir = targetDir == null ? extension.outputDir : targetDir
+    void action() {
 
         project.copy {
 
-            from("${project.rootDir}/core/src/main/dist") {
+            from("${project.rootDir}/dxram/src/main/dist") {
 
                 it.include("**/*")
             }
 
-            into("${extension.outputDir}")
+            into("${project.outputDir}")
         }
     }
 }

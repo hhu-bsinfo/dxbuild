@@ -1,26 +1,29 @@
 package de.hhu.bsinfo.dxram.gradle
 
-import de.hhu.bsinfo.dxram.gradle.extension.BuildConfigExtension
+import de.hhu.bsinfo.dxram.gradle.build.BuildType
 import de.hhu.bsinfo.dxram.gradle.extension.DXRamExtension
 import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
-import de.hhu.bsinfo.dxram.gradle.task.NativeBuildTask
 import de.hhu.bsinfo.dxram.gradle.task.DistributionTask
 import de.hhu.bsinfo.dxram.gradle.task.FatJarTask
+import de.hhu.bsinfo.dxram.gradle.task.NativeBuildTask
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.JavaPluginConvention
-import org.gradle.api.tasks.compile.JavaCompile
 
 class DXRamPlugin implements Plugin<Project> {
 
     void apply(Project project) {
 
+        project.ext.gitCommit = 'git rev-parse --verify --short HEAD'.execute().text.trim()
+
         project.pluginManager.apply(JavaPlugin)
 
-        project.extensions.create(DXRamExtension.NAME, DXRamExtension)
+        NamedDomainObjectContainer<BuildType> buildTypes = project.container(BuildType)
 
-        project.extensions.create(BuildConfigExtension.NAME, BuildConfigExtension)
+        project.extensions.add(BuildType.NAME, buildTypes)
+
+        project.extensions.create(DXRamExtension.NAME, DXRamExtension)
 
         project.sourceSets.main.java.srcDirs += "${project.buildDir}/generated"
 

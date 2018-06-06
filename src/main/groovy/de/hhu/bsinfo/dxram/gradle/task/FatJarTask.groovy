@@ -36,9 +36,7 @@ class FatJarTask extends Jar {
     }
 
     @TaskAction
-    def action() {
-
-        def extension = project.extensions.getByType(DXRamExtension)
+    void action() {
 
         project.copy {
 
@@ -47,7 +45,7 @@ class FatJarTask extends Jar {
                 it.include("dxram.jar")
             }
 
-            into("${extension.outputDir}")
+            into("${project.outputDir}")
         }
     }
 }

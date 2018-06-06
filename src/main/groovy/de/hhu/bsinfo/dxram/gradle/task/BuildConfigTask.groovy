@@ -3,8 +3,10 @@ package de.hhu.bsinfo.dxram.gradle.task
 import com.squareup.javapoet.AnnotationSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeSpec
-import de.hhu.bsinfo.dxram.gradle.extension.BuildConfigExtension
+import de.hhu.bsinfo.dxram.gradle.build.BuildType
+import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import org.gradle.api.DefaultTask
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.tasks.TaskAction
 
 import javax.annotation.Generated
@@ -22,25 +24,38 @@ class BuildConfigTask extends DefaultTask {
     }
 
     @TaskAction
-    def action() {
+    void action() {
 
-        def extension = project.extensions.getByType(BuildConfigExtension)
+        NamedDomainObjectContainer<BuildType> buildTypes = project.extensions.getByName(BuildType.NAME)
 
-        def annotation = AnnotationSpec.builder(Generated)
+        BuildType buildType = buildTypes.getByName(project.buildType)
+
+        BuildConfig buildConfig = buildType.buildConfig
+
+        if (buildConfig.superBuildConfig != null) {
+
+            BuildConfig superBuildConfig = buildTypes.getByName(buildConfig.superBuildConfig).buildConfig
+
+            superBuildConfig.fields.putAll(buildConfig.fields)
+
+            buildConfig.fields = superBuildConfig.fields
+        }
+
+        AnnotationSpec annotation = AnnotationSpec.builder(Generated)
             .addMember("value", "\$S", "de.hhu.bsinfo.dxgradle")
             .build()
 
-        def classSpec = TypeSpec.classBuilder(extension.className)
+        TypeSpec classSpec = TypeSpec.classBuilder(buildConfig.className)
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-            .addFields(extension.fields)
+            .addFields(buildConfig.fields.values())
             .addAnnotation(annotation)
             .build()
 
-        def packageName = extension.packageName
+        String packageName = buildConfig.packageName
 
-        packageName = packageName.isEmpty() ? project.group + ".generated" : packageName;
+        packageName = packageName.isEmpty() ? "${project.group}.${project.name}.generated" : packageName;
 
-        def javaFile = JavaFile.builder(packageName, classSpec)
+        JavaFile javaFile = JavaFile.builder(packageName, classSpec)
                 .build()
 
         javaFile.writeTo(new File(project.buildDir, "generated"))

@@ -19,9 +19,7 @@ class NativeBuildTask extends DefaultTask {
     }
 
     @TaskAction
-    def action() {
-
-        def extension = project.extensions.getByType(DXRamExtension)
+    void action() {
 
         project.copy {
 
@@ -30,7 +28,7 @@ class NativeBuildTask extends DefaultTask {
                 include '**/*.so'
             }
 
-            into "${extension.outputDir}/jni"
+            into "${project.outputDir}/jni"
 
             eachFile {
 
