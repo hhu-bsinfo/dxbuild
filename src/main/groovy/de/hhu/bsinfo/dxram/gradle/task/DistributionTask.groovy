@@ -13,7 +13,7 @@ class DistributionTask extends DefaultTask {
 
         description = "Creates a ready to use distribution"
 
-        finalizedBy(FatJarTask.NAME, NativeBuildTask.NAME)
+        dependsOn(FatJarTask.NAME, NativeBuildTask.NAME)
     }
 
     @TaskAction
