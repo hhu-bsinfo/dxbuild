@@ -11,7 +11,7 @@ def pomConfig = {
         developer {
             id 'filkra'
             name 'Filip Krakowski'
-            email 'Filip.Krakowski@Uni-Duesseldorf.de'
+            email 'filip.krakowski@uni-duesseldorf.de'
         }
     }
 
