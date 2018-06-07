@@ -13,7 +13,4 @@ jobs:
     - stage: test
       script: ./gradlew test
     - stage: deploy
-      script: skip
-      deploy:
-        provider: script
-        script: ./gradlew bintrayUpload -Dbintray.user=${BINTRAY_USER} -Dbintray.key=${BINTRAY_KEY}
+      script: ./gradlew bintrayUpload -Dbintray.user=${BINTRAY_USER} -Dbintray.key=${BINTRAY_KEY}
