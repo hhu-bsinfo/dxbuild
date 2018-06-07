@@ -1,6 +1,6 @@
 package de.hhu.bsinfo.dxram.gradle
 
-import de.hhu.bsinfo.dxram.gradle.build.BuildType
+import de.hhu.bsinfo.dxram.gradle.config.BuildType
 import de.hhu.bsinfo.dxram.gradle.extension.DXRamExtension
 import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
 import de.hhu.bsinfo.dxram.gradle.task.DistributionTask

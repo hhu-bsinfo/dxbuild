@@ -3,7 +3,7 @@ package de.hhu.bsinfo.dxram.gradle.task
 import com.squareup.javapoet.AnnotationSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeSpec
-import de.hhu.bsinfo.dxram.gradle.build.BuildType
+import de.hhu.bsinfo.dxram.gradle.config.BuildType
 import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectContainer
