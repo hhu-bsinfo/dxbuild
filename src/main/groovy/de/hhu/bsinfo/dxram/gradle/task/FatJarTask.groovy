@@ -12,7 +12,7 @@ class FatJarTask extends Jar {
 
     FatJarTask() {
 
-        group = 'dxram'
+        group = 'jar'
 
         description = 'Creates a JAR archive containing all dependencies'
 
@@ -22,7 +22,7 @@ class FatJarTask extends Jar {
                     'BuildUser': System.properties['user.name'],
                     'BuildDate': new Date().format('yyyy-MM-dd HH:mm:ss'),
                     'Main-Class': 'de.hhu.bsinfo.dxram.DXRAMMain',
-                    'Class-Path': project.configurations.compile.collect{ it.getName() }.join(' ')
+                    'Class-Path': project.configurations.compileClasspath.collect{ it.getName() }.join(' ')
             )
         }
 
@@ -30,7 +30,7 @@ class FatJarTask extends Jar {
 
         version = ''
 
-        from { project.configurations.compile.collect { it.isDirectory() ? it : project.zipTree(it) } }
+        from { project.configurations.compileClasspath.collect { it.isDirectory() ? it : project.zipTree(it) } }
 
         with project.tasks.getByName("jar") as CopySpec
     }
@@ -45,7 +45,7 @@ class FatJarTask extends Jar {
                 it.include("dxram.jar")
             }
 
-            into("${project.outputDir}")
+            into("${project.outputDir}/dxram")
         }
     }
 }

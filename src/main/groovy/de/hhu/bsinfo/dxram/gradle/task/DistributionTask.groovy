@@ -26,7 +26,7 @@ class DistributionTask extends DefaultTask {
                 it.include("**/*")
             }
 
-            into("${project.outputDir}")
+            into("${project.outputDir}/dxram")
         }
     }
 }

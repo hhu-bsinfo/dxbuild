@@ -28,7 +28,7 @@ class NativeBuildTask extends DefaultTask {
                 include '**/*.so'
             }
 
-            into "${project.outputDir}/jni"
+            into "${project.outputDir}/dxram/jni"
 
             eachFile {
 

@@ -3,6 +3,7 @@ package de.hhu.bsinfo.dxram.gradle
 import de.hhu.bsinfo.dxram.gradle.config.BuildType
 import de.hhu.bsinfo.dxram.gradle.extension.DXRamExtension
 import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
+import de.hhu.bsinfo.dxram.gradle.task.DistZipTask
 import de.hhu.bsinfo.dxram.gradle.task.DistributionTask
 import de.hhu.bsinfo.dxram.gradle.task.FatJarTask
 import de.hhu.bsinfo.dxram.gradle.task.NativeBuildTask
@@ -30,6 +31,8 @@ class DXRamPlugin implements Plugin<Project> {
         project.afterEvaluate {
 
             project.tasks.create(DistributionTask.NAME, DistributionTask)
+
+            project.tasks.create(DistZipTask.NAME, DistZipTask)
 
             project.tasks.create(NativeBuildTask.NAME, NativeBuildTask)
 
