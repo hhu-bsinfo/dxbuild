@@ -5,6 +5,13 @@ import spoon.reflect.code.CtInvocation
 
 class InvocationProcessor extends AbstractProcessor<CtInvocation> {
 
+    private final List<String> excludedInvocations;
+
+    InvocationProcessor(List<String> filterList) {
+
+        excludedInvocations = filterList
+    }
+
     @Override
     void process(CtInvocation invocation) {
 
@@ -15,9 +22,9 @@ class InvocationProcessor extends AbstractProcessor<CtInvocation> {
 
         String signature = invocation.getTarget().getType().getQualifiedName() + "#" + invocation.getExecutable().toString();
 
-        if (signature.startsWith("org.apache.logging.log4j.Logger")) {
+        if (excludedInvocations.any{signature.startsWith(it)}) {
 
-            System.out.println(signature)
+            invocation.delete()
         }
     }
 }

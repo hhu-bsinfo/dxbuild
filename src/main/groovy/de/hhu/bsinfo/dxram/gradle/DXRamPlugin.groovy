@@ -7,6 +7,7 @@ import de.hhu.bsinfo.dxram.gradle.task.DistZipTask
 import de.hhu.bsinfo.dxram.gradle.task.DistributionTask
 import de.hhu.bsinfo.dxram.gradle.task.FatJarTask
 import de.hhu.bsinfo.dxram.gradle.task.NativeBuildTask
+import de.hhu.bsinfo.dxram.gradle.task.SpoonTask
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -26,7 +27,7 @@ class DXRamPlugin implements Plugin<Project> {
 
         project.extensions.create(DXRamExtension.NAME, DXRamExtension)
 
-        project.sourceSets.main.java.srcDirs += "${project.buildDir}/generated"
+        project.sourceSets.main.java.srcDirs = ["${project.projectDir}/src/main/java", "${project.buildDir}/generated"]
 
         project.afterEvaluate {
 
@@ -40,7 +41,9 @@ class DXRamPlugin implements Plugin<Project> {
 
             project.tasks.create(BuildConfigTask.NAME, BuildConfigTask)
 
-            project.tasks.compileJava.dependsOn(BuildConfigTask.NAME)
+            project.tasks.create(SpoonTask.NAME, SpoonTask)
+
+            project.tasks.compileJava.dependsOn(SpoonTask.NAME)
         }
     }
 }
