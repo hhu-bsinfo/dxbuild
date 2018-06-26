@@ -47,8 +47,6 @@ class DXRamPlugin implements Plugin<Project> {
 
             if (Boolean.parseBoolean(project.nativeBuild)) {
 
-                System.out.println("Native build is active")
-
                 project.tasks.getByName(DistributionTask.NAME).dependsOn(NativeBuildTask.NAME)
             }
         }
