@@ -16,11 +16,11 @@ class DistZipTask extends Zip {
 
         dependsOn(DistributionTask.NAME)
 
-        from "${project.outputDir}/dxram"
+        from "${project.outputDir}/${project.name}"
 
         include '**/*'
 
-        archiveName = 'dxram.zip'
+        archiveName = "${project.name}.zip"
 
         destinationDir project.outputDir.startsWith('/') ? new File(project.outputDir) : new File(project.projectDir, project.outputDir)
     }

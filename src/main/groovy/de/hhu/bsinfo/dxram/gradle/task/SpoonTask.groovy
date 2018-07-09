@@ -36,6 +36,11 @@ class SpoonTask extends DefaultTask {
 
         NamedDomainObjectContainer<BuildType> buildTypes = project.extensions.getByName(BuildType.NAME)
 
+        if (!project.hasProperty("buildType")) {
+
+            return
+        }
+
         BuildType buildType = buildTypes.getByName(project.buildType)
 
         List<String> excludedInvocations = buildType.excludedInvocations

@@ -4,9 +4,12 @@ import com.squareup.javapoet.AnnotationSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeSpec
 import de.hhu.bsinfo.dxram.gradle.config.BuildType
+import de.hhu.bsinfo.dxram.gradle.config.Properties
 import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import org.gradle.api.DefaultTask
+import org.gradle.api.InvalidUserDataException
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.tasks.TaskAction
 
 import javax.annotation.Generated
@@ -28,13 +31,27 @@ class BuildConfigTask extends DefaultTask {
 
         NamedDomainObjectContainer<BuildType> buildTypes = project.extensions.getByName(BuildType.NAME)
 
+        if (!project.hasProperty(Properties.BUILD_TYPE)) {
+
+            return
+        }
+
         BuildType buildType = buildTypes.getByName(project.buildType)
 
         BuildConfig buildConfig = buildType.buildConfig
 
         if (buildConfig.superBuildConfig != null) {
 
-            BuildConfig superBuildConfig = buildTypes.getByName(buildConfig.superBuildConfig).buildConfig
+            BuildConfig superBuildConfig
+
+            try {
+
+                superBuildConfig = buildTypes.getByName(buildConfig.superBuildConfig).buildConfig
+
+            } catch (UnknownDomainObjectException ignored) {
+
+                throw new InvalidUserDataException("Can't inherit from unknown build configuration '${buildConfig.superBuildConfig}'")
+            }
 
             superBuildConfig.fields.putAll(buildConfig.fields)
 
