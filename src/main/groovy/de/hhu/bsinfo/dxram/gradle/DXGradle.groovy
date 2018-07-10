@@ -16,7 +16,7 @@ import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.Sync
 
-class DXRamPlugin implements Plugin<Project> {
+class DXGradle implements Plugin<Project> {
 
     void apply(Project project) {
 
