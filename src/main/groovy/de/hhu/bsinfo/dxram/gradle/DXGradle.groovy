@@ -56,6 +56,11 @@ class DXGradle implements Plugin<Project> {
                 }
             }
 
+            project.tasks.installDist.doLast {
+
+                project.delete("${project.outputDir}/${project.name}/bin/${project.name}.bat")
+            }
+
             if (project.hasProperty(Properties.NATIVE_BUILD) && Boolean.parseBoolean(project.nativeBuild)) {
 
                 project.tasks.create(NativeBuildTask.NAME, NativeBuildTask)
