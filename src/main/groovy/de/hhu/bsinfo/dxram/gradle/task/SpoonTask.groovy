@@ -63,7 +63,7 @@ class SpoonTask extends DefaultTask {
 
         launcher.environment.setNoClasspath(true)
 
-        launcher.environment.setAutoImports(true)
+        launcher.environment.setAutoImports(false)
 
         launcher.environment.sourceClasspath = project.configurations.compileClasspath.asPath.split(":")
 
