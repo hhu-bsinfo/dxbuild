@@ -16,6 +16,8 @@ class DXGradle implements Plugin<Project> {
 
         project.ext.gitCommit = 'git rev-parse --verify --short HEAD'.execute().text.trim()
 
+        project.ext.currentDate = new Date().format('yyyy-MM-dd HH:mm:ss')
+
         project.pluginManager.apply(ApplicationPlugin)
 
         project.configurations {
