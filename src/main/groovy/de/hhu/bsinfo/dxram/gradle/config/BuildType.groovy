@@ -113,4 +113,13 @@ class BuildType {
                 excludeInvocations 'de.hhu.bsinfo.dxutils.stats.ValuePool#addDebug'
         }
     }
+
+    @SuppressWarnings("GroovyFallthrough")
+    void excludeNodeRoleAsserts(String level) {
+        switch (level) {
+            case LEVEL_PERFORMANCE:
+            case LEVEL_RELEASE:
+                excludeInvocations 'de.hhu.bsinfo.dxram.util.NodeRole#assertNodeRole'
+        }
+    }
 }
