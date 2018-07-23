@@ -9,6 +9,7 @@ import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ApplicationPlugin
+import org.gradle.api.plugins.JavaLibraryPlugin
 
 class DXGradle implements Plugin<Project> {
 
@@ -20,11 +21,17 @@ class DXGradle implements Plugin<Project> {
 
         project.pluginManager.apply(ApplicationPlugin)
 
+        project.pluginManager.apply(JavaLibraryPlugin)
+
         project.configurations {
 
             nativeImplementation
 
             implementation.extendsFrom nativeImplementation
+
+            nativeApi
+
+            api.extendsFrom nativeApi
         }
 
         NamedDomainObjectContainer<BuildType> buildTypes = project.container(BuildType)

@@ -23,9 +23,21 @@ class ExtractNatives extends DefaultTask {
     @TaskAction
     void action() {
 
-        def nativeBinaries = project.zipTree(project.configurations.nativeImplementation.files
-                .find{it.name.contains(NATIVE_LIBRARY)})
-                .findAll{it.name.endsWith(SHARED_LIBRARY_EXTENSION)}
+        def nativeBinaries = new ArrayList<File>()
+
+        if (project.configurations.nativeImplementation.files) {
+
+            nativeBinaries.addAll(project.zipTree(project.configurations.nativeImplementation.files
+                    .find{it.name.contains(NATIVE_LIBRARY)})
+                    .findAll{it.name.endsWith(SHARED_LIBRARY_EXTENSION)})
+        }
+
+        if (project.configurations.nativeApi.files) {
+
+            nativeBinaries.addAll(project.zipTree(project.configurations.nativeApi.files
+                    .find{it.name.contains(NATIVE_LIBRARY)})
+                    .findAll{it.name.endsWith(SHARED_LIBRARY_EXTENSION)})
+        }
 
         if (nativeBinaries.isEmpty()) {
 
