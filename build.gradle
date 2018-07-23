@@ -2,10 +2,11 @@ plugins {
     id 'groovy'
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
+    id "com.jfrog.artifactory" version "4.7.5"
 }
 
 group = 'de.hhu.bsinfo'
-version = '1.0.12'
+version = '0.3.1' + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -43,6 +44,8 @@ artifacts {
 }
 
 apply from: 'publish.gradle'
+apply from: 'bintray.gradle'
+apply from: 'artifactory.gradle'
 
 task wrapper(type: Wrapper) {
     gradleVersion = "4.9"
