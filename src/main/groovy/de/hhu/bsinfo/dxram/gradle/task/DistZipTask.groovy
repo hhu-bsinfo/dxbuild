@@ -1,6 +1,7 @@
 package de.hhu.bsinfo.dxram.gradle.task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.distribution.plugins.DistributionPlugin
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.bundling.Zip
 
@@ -14,7 +15,7 @@ class DistZipTask extends Zip {
 
         description = 'Creates a zip file containing a ready to use distribution'
 
-        dependsOn(DistributionTask.NAME)
+        dependsOn(DistributionPlugin.TASK_INSTALL_NAME)
 
         from "${project.outputDir}/${project.name}"
 
