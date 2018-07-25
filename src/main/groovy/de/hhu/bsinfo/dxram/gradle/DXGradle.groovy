@@ -1,6 +1,6 @@
 package de.hhu.bsinfo.dxram.gradle
 
-import de.hhu.bsinfo.dxram.gradle.config.BuildType
+import de.hhu.bsinfo.dxram.gradle.config.BuildVariant
 import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
 import de.hhu.bsinfo.dxram.gradle.task.DistZipTask
 import de.hhu.bsinfo.dxram.gradle.task.ExtractNatives
@@ -34,9 +34,9 @@ class DXGradle implements Plugin<Project> {
             api.extendsFrom nativeApi
         }
 
-        NamedDomainObjectContainer<BuildType> buildTypes = project.container(BuildType)
+        NamedDomainObjectContainer<BuildVariant> buildVariants = project.container(BuildVariant)
 
-        project.extensions.add(BuildType.NAME, buildTypes)
+        project.extensions.add(BuildVariant.NAME, buildVariants)
 
         project.sourceSets.main.java.srcDirs = ["${project.projectDir}/src/main/java", "${project.buildDir}/generated"]
 

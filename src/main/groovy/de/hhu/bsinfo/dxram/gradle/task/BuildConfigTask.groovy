@@ -3,7 +3,7 @@ package de.hhu.bsinfo.dxram.gradle.task
 import com.squareup.javapoet.AnnotationSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeSpec
-import de.hhu.bsinfo.dxram.gradle.config.BuildType
+import de.hhu.bsinfo.dxram.gradle.config.BuildVariant
 import de.hhu.bsinfo.dxram.gradle.config.Properties
 import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import org.gradle.api.DefaultTask
@@ -29,16 +29,16 @@ class BuildConfigTask extends DefaultTask {
     @TaskAction
     void action() {
 
-        NamedDomainObjectContainer<BuildType> buildTypes = project.extensions.getByName(BuildType.NAME)
+        NamedDomainObjectContainer<BuildVariant> buildVariants = project.extensions.getByName(BuildVariant.NAME)
 
-        if (!project.hasProperty(Properties.BUILD_TYPE)) {
+        if (!project.hasProperty(Properties.BUILD_VARIANT)) {
 
             return
         }
 
-        BuildType buildType = buildTypes.getByName(project.buildType)
+        BuildVariant buildVariant = buildVariants.getByName(project.buildVariant)
 
-        BuildConfig buildConfig = buildType.buildConfig
+        BuildConfig buildConfig = buildVariant.buildConfig
 
         if (buildConfig.superBuildConfig != null) {
 
@@ -46,7 +46,7 @@ class BuildConfigTask extends DefaultTask {
 
             try {
 
-                superBuildConfig = buildTypes.getByName(buildConfig.superBuildConfig).buildConfig
+                superBuildConfig = buildVariants.getByName(buildConfig.superBuildConfig).buildConfig
 
             } catch (UnknownDomainObjectException ignored) {
 

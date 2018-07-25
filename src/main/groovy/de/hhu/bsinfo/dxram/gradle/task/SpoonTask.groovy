@@ -1,19 +1,14 @@
 package de.hhu.bsinfo.dxram.gradle.task
 
-import de.hhu.bsinfo.dxram.gradle.config.BuildType
+import de.hhu.bsinfo.dxram.gradle.config.BuildVariant
 import de.hhu.bsinfo.dxram.gradle.processor.InvocationProcessor
-import org.apache.log4j.Level
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.TaskAction
 import spoon.Launcher
-import spoon.processing.ProblemFixer
-import spoon.processing.Processor
 import spoon.reflect.CtModel
-import spoon.reflect.declaration.CtElement
-import spoon.support.StandardEnvironment
 
 class SpoonTask extends DefaultTask {
 
@@ -34,16 +29,16 @@ class SpoonTask extends DefaultTask {
     @TaskAction
     void action() {
 
-        NamedDomainObjectContainer<BuildType> buildTypes = project.extensions.getByName(BuildType.NAME)
+        NamedDomainObjectContainer<BuildVariant> buildVariants = project.extensions.getByName(BuildVariant.NAME)
 
-        if (!project.hasProperty("buildType")) {
+        if (!project.hasProperty("buildVariant")) {
 
             return
         }
 
-        BuildType buildType = buildTypes.getByName(project.buildType)
+        BuildVariant buildVariant = buildVariants.getByName(project.buildVariant)
 
-        List<String> excludedInvocations = buildType.excludedInvocations
+        List<String> excludedInvocations = buildVariant.excludedInvocations
 
         if (excludedInvocations.isEmpty()) {
 
@@ -59,7 +54,7 @@ class SpoonTask extends DefaultTask {
 
         sourceDirs.forEach { launcher.addInputResource(it) }
 
-        launcher.getEnvironment().sourceOutputDirectory = new File(project.buildDir, "spoonSources/${buildType.name}")
+        launcher.getEnvironment().sourceOutputDirectory = new File(project.buildDir, "spoonSources/${buildVariant.name}")
 
         launcher.environment.setNoClasspath(true)
 
@@ -77,7 +72,7 @@ class SpoonTask extends DefaultTask {
 
         launcher.prettyprint()
 
-        project.sourceSets.main.java.srcDirs = ["${project.buildDir}/spoonSources/${project.buildType}"]
+        project.sourceSets.main.java.srcDirs = ["${project.buildDir}/spoonSources/${project.buildVariant}"]
 
         project.gradle.buildFinished {
 

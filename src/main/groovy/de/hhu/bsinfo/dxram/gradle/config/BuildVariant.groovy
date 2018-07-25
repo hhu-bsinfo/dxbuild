@@ -3,7 +3,7 @@ package de.hhu.bsinfo.dxram.gradle.config
 import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import org.gradle.util.ConfigureUtil
 
-class BuildType {
+class BuildVariant {
 
     private static final String LEVEL_ALL = "ALL";
 
@@ -11,7 +11,7 @@ class BuildType {
 
     private static final String LEVEL_PERFORMANCE = "PERFORMANCE";
 
-    public static final String NAME = "buildTypes"
+    public static final String NAME = "buildVariants"
 
     final name
 
@@ -19,7 +19,7 @@ class BuildType {
 
     List<String> excludedInvocations
 
-    BuildType(String name) {
+    BuildVariant(String name) {
         this.name = name
         this.buildConfig = new BuildConfig()
         this.excludedInvocations = new ArrayList<>()
