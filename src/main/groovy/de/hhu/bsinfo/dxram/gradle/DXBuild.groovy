@@ -11,7 +11,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.JavaLibraryPlugin
 
-class DXGradle implements Plugin<Project> {
+class DXBuild implements Plugin<Project> {
 
     void apply(Project project) {
 

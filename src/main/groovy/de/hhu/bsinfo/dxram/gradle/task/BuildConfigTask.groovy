@@ -59,7 +59,7 @@ class BuildConfigTask extends DefaultTask {
         }
 
         AnnotationSpec annotation = AnnotationSpec.builder(Generated)
-            .addMember("value", "\$S", "de.hhu.bsinfo.dxgradle")
+            .addMember("value", "\$S", "de.hhu.bsinfo.dxbuild")
             .build()
 
         TypeSpec classSpec = TypeSpec.classBuilder(buildConfig.className)

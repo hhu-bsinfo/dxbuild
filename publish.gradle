@@ -16,7 +16,7 @@ def pomConfig = {
     }
 
     scm {
-        url 'https://github.com/hhu-bsinfo/dxgradle'
+        url 'https://github.com/hhu-bsinfo/dxbuild'
     }
 }
 
@@ -43,8 +43,8 @@ publishing {
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'DXRam\'s custom Gradle plugin')
-                root.appendNode('name', 'DXGradle')
-                root.appendNode('url', 'https://github.com/hhu-bsinfo/dxgradle')
+                root.appendNode('name', 'DXBuild')
+                root.appendNode('url', 'https://github.com/hhu-bsinfo/dxbuild')
                 root.children().last() + pomConfig
             }
         }

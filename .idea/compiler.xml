@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="dxbuild_main" target="1.8" />
+      <module name="dxbuild_test" target="1.8" />
       <module name="dxgradle_main" target="1.8" />
       <module name="dxgradle_test" target="1.8" />
     </bytecodeTargetLevel>

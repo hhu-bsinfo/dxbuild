@@ -7,13 +7,13 @@ bintray {
 
     pkg {
         repo = 'dxram'
-        name = 'dxgradle'
+        name = 'dxbuild'
         userOrg = 'hhu-bsinfo'
         licenses = ['GPL-3.0']
         websiteUrl = 'https://www.dxram.io'
-        vcsUrl = 'https://github.com/hhu-bsinfo/dxgradle.git'
+        vcsUrl = 'https://github.com/hhu-bsinfo/dxbuild.git'
         labels = ['gradle', 'plugin', 'dxram']
-        githubRepo = 'hhu-bsinfo/dxgradle'
+        githubRepo = 'hhu-bsinfo/dxbuild'
         githubReleaseNotesFile = 'README.md'
 
         version {
