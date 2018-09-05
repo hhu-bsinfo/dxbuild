@@ -3,6 +3,7 @@ package de.hhu.bsinfo.dxram.gradle
 import de.hhu.bsinfo.dxram.gradle.config.BuildVariant
 import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
 import de.hhu.bsinfo.dxram.gradle.task.DistZipTask
+import de.hhu.bsinfo.dxram.gradle.task.ExtendedTestTask
 import de.hhu.bsinfo.dxram.gradle.task.ExtractNatives
 import de.hhu.bsinfo.dxram.gradle.task.SpoonTask
 import org.gradle.api.NamedDomainObjectContainer
@@ -10,6 +11,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.JavaLibraryPlugin
+import org.gradle.api.tasks.testing.Test
 
 class DXBuild implements Plugin<Project> {
 
@@ -39,6 +41,23 @@ class DXBuild implements Plugin<Project> {
         project.extensions.add(BuildVariant.NAME, buildVariants)
 
         project.sourceSets.main.java.srcDirs = ["${project.projectDir}/src/main/java", "${project.buildDir}/generated"]
+
+        project.sourceSets {
+            extTest {
+                java {
+                    compileClasspath += main.output + test.output
+                    runtimeClasspath += main.output + test.output
+                    srcDir project.file("src/extTest/java")
+                }
+                resources.srcDir project.file("src/extTest/resources")
+            }
+        }
+
+        project.configurations {
+            extTestImplementation.extendsFrom testImplementation
+        }
+
+        project.tasks.create(ExtendedTestTask.NAME, ExtendedTestTask)
 
         project.afterEvaluate {
 
