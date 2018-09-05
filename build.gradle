@@ -48,5 +48,5 @@ apply from: 'bintray.gradle'
 apply from: 'artifactory.gradle'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "4.9"
+    gradleVersion = "4.10"
 }
