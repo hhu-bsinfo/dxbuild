@@ -29,54 +29,54 @@ class SpoonTask extends DefaultTask {
     @TaskAction
     void action() {
 
-        NamedDomainObjectContainer<BuildVariant> buildVariants = project.extensions.getByName(BuildVariant.NAME)
+//        NamedDomainObjectContainer<BuildVariant> buildVariants = project.extensions.getByName(BuildVariant.NAME)
+//
+//        if (!project.hasProperty("buildVariant")) {
+//
+//            return
+//        }
+//
+//        BuildVariant buildVariant = buildVariants.getByName(project.buildVariant)
+//
+//        List<String> excludedInvocations = buildVariant.excludedInvocations
+//
+//        if (excludedInvocations.isEmpty()) {
+//
+//            return
+//        }
+//
+//        Set<File> sourceFiles = project.sourceSets.main.java.srcDirs
+//
+//        Set<String> sourceDirs = sourceFiles.collect { it.absolutePath }
+//                                            .toSet()
+//
+//        final Launcher launcher = new Launcher()
+//
+//        sourceDirs.forEach { launcher.addInputResource(it) }
+//
+//        launcher.getEnvironment().sourceOutputDirectory = new File(project.buildDir, "spoonSources/${buildVariant.name}")
+//
+//        launcher.environment.setNoClasspath(false)
+//
+//        launcher.environment.setAutoImports(false)
+//
+//        launcher.environment.sourceClasspath = project.configurations.compileClasspath.asPath.split(":")
+//
+//        launcher.buildModel()
+//
+//        final CtModel model = launcher.getModel()
+//
+//        final InvocationProcessor processor = new InvocationProcessor(excludedInvocations)
+//
+//        model.processWith(processor)
+//
+//        launcher.prettyprint()
+//
+//        project.sourceSets.main.java.srcDirs = ["${project.buildDir}/spoonSources/${project.buildVariant}"]
 
-        if (!project.hasProperty("buildVariant")) {
-
-            return
-        }
-
-        BuildVariant buildVariant = buildVariants.getByName(project.buildVariant)
-
-        List<String> excludedInvocations = buildVariant.excludedInvocations
-
-        if (excludedInvocations.isEmpty()) {
-
-            return
-        }
-
-        Set<File> sourceFiles = project.sourceSets.main.java.srcDirs
-
-        Set<String> sourceDirs = sourceFiles.collect { it.absolutePath }
-                                            .toSet()
-
-        final Launcher launcher = new Launcher()
-
-        sourceDirs.forEach { launcher.addInputResource(it) }
-
-        launcher.getEnvironment().sourceOutputDirectory = new File(project.buildDir, "spoonSources/${buildVariant.name}")
-
-        launcher.environment.setNoClasspath(true)
-
-        launcher.environment.setAutoImports(false)
-
-        launcher.environment.sourceClasspath = project.configurations.compileClasspath.asPath.split(":")
-
-        launcher.buildModel()
-
-        final CtModel model = launcher.getModel()
-
-        final InvocationProcessor processor = new InvocationProcessor(excludedInvocations)
-
-        model.processWith(processor)
-
-        launcher.prettyprint()
-
-        project.sourceSets.main.java.srcDirs = ["${project.buildDir}/spoonSources/${project.buildVariant}"]
-
-        project.gradle.buildFinished {
-
-            project.sourceSets.main.java.srcDirs = ["${project.projectDir}/src/main/java", "${project.buildDir}/generated"]
-        }
+//        project.gradle.buildFinished {
+//
+//            project.sourceSets.main.java.srcDirs = ["${project.projectDir}/src/main/java", "${project.buildDir}/generated"]
+//        }
     }
 }

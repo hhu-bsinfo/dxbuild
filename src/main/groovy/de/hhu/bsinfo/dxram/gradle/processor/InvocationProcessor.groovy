@@ -16,14 +16,21 @@ class InvocationProcessor extends AbstractProcessor<CtInvocation> {
     void process(CtInvocation invocation) {
 
         if (invocation.getTarget() == null || invocation.getExecutable() == null || invocation.getTarget().getType() == null) {
-
             return
         }
 
+        // Signature for instance method calls
         String signature = invocation.getTarget().getType().getQualifiedName() + "#" + invocation.getExecutable().toString();
 
         if (excludedInvocations.any{signature.startsWith(it)}) {
+            invocation.delete()
+        }
 
+        // Signature for static method calls
+        signature = "${invocation.getTarget().toString()}#${invocation.getExecutable().toString()}";
+
+        if (excludedInvocations.any{signature.startsWith(it)}) {
+            println(invocation.toString())
             invocation.delete()
         }
     }

@@ -1,17 +1,23 @@
 package de.hhu.bsinfo.dxram.gradle
 
 import de.hhu.bsinfo.dxram.gradle.config.BuildVariant
+import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
+import de.hhu.bsinfo.dxram.gradle.processor.InvocationProcessor
 import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
 import de.hhu.bsinfo.dxram.gradle.task.DistZipTask
 import de.hhu.bsinfo.dxram.gradle.task.ExtendedTestTask
 import de.hhu.bsinfo.dxram.gradle.task.ExtractNatives
 import de.hhu.bsinfo.dxram.gradle.task.SpoonTask
+import org.apache.log4j.Level
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.UnknownTaskException
 import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.tasks.testing.Test
+import spoon.Launcher
+import spoon.reflect.CtModel
 
 class DXBuild implements Plugin<Project> {
 
@@ -61,6 +67,8 @@ class DXBuild implements Plugin<Project> {
 
         project.afterEvaluate {
 
+            project.tasks.compileJava.doFirst { runPreProcessor(project) }
+
             project.tasks.remove(project.tasks.distZip)
 
             project.tasks.remove(project.tasks.distTar)
@@ -69,13 +77,13 @@ class DXBuild implements Plugin<Project> {
 
             project.tasks.create(BuildConfigTask.NAME, BuildConfigTask)
 
-            project.tasks.create(SpoonTask.NAME, SpoonTask)
+//            project.tasks.create(SpoonTask.NAME, SpoonTask)
 
             project.tasks.create(DistZipTask.NAME, DistZipTask)
 
             project.tasks.create(ExtractNatives.NAME, ExtractNatives)
 
-            project.tasks.compileJava.dependsOn(SpoonTask.NAME)
+            project.tasks.compileJava.dependsOn(BuildConfigTask.NAME)
 
             project.tasks.installDist {
 
@@ -93,6 +101,63 @@ class DXBuild implements Plugin<Project> {
 
                 project.delete("${project.outputDir}/${project.name}/bin/${project.name}.bat")
             }
+
+            // Wait on spoon task of included builds to finish before compiling everything
+//            project.tasks.getByName(SpoonTask.NAME).dependsOn(project.gradle.includedBuilds*.task(":compileJava"))
+        }
+    }
+
+    static void runPreProcessor(Project project) {
+        NamedDomainObjectContainer<BuildVariant> buildVariants = project.extensions.getByName(BuildVariant.NAME)
+
+        if (!project.hasProperty("buildVariant")) {
+
+            return
+        }
+
+        BuildVariant buildVariant = buildVariants.getByName(project.buildVariant)
+
+        List<String> excludedInvocations = buildVariant.excludedInvocations
+
+        if (excludedInvocations.isEmpty()) {
+
+            return
+        }
+
+        Set<File> sourceFiles = project.sourceSets.main.java.srcDirs
+
+        Set<String> sourceDirs = sourceFiles.collect { it.absolutePath }
+                .toSet()
+
+        final Launcher launcher = new Launcher()
+
+        sourceDirs.forEach { launcher.addInputResource(it) }
+
+        launcher.getEnvironment().sourceOutputDirectory = new File(project.buildDir, "spoonSources/${buildVariant.name}")
+
+        launcher.environment.setNoClasspath(true)
+
+        launcher.environment.setAutoImports(false)
+
+        launcher.environment.level = "OFF"
+
+        launcher.environment.sourceClasspath = project.configurations.compileClasspath.asPath.split(":")
+
+        launcher.buildModel()
+
+        final CtModel model = launcher.getModel()
+
+        final InvocationProcessor processor = new InvocationProcessor(excludedInvocations)
+
+        model.processWith(processor)
+
+        launcher.prettyprint()
+
+        project.sourceSets.main.java.srcDirs = ["${project.buildDir}/spoonSources/${project.buildVariant}"]
+
+        project.gradle.buildFinished {
+
+            project.sourceSets.main.java.srcDirs = ["${project.projectDir}/src/main/java", "${project.buildDir}/generated"]
         }
     }
 }
