@@ -4,19 +4,14 @@ import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import org.gradle.util.ConfigureUtil
 
 class BuildVariant {
-
     private static final String LEVEL_ALL = "ALL";
-
     private static final String LEVEL_RELEASE = "RELEASE";
-
     private static final String LEVEL_PERFORMANCE = "PERFORMANCE";
 
     public static final String NAME = "buildVariants"
 
     final name
-
     BuildConfig buildConfig
-
     List<String> excludedInvocations
 
     BuildVariant(String name) {
