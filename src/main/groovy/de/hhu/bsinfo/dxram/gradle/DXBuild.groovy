@@ -1,21 +1,13 @@
 package de.hhu.bsinfo.dxram.gradle
 
 import de.hhu.bsinfo.dxram.gradle.config.BuildVariant
-import de.hhu.bsinfo.dxram.gradle.extension.BuildConfig
 import de.hhu.bsinfo.dxram.gradle.processor.InvocationProcessor
-import de.hhu.bsinfo.dxram.gradle.task.BuildConfigTask
-import de.hhu.bsinfo.dxram.gradle.task.DistZipTask
-import de.hhu.bsinfo.dxram.gradle.task.ExtendedTestTask
-import de.hhu.bsinfo.dxram.gradle.task.ExtractNatives
-import de.hhu.bsinfo.dxram.gradle.task.SpoonTask
-import org.apache.log4j.Level
+import de.hhu.bsinfo.dxram.gradle.task.*
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.UnknownTaskException
 import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.JavaLibraryPlugin
-import org.gradle.api.tasks.testing.Test
 import spoon.Launcher
 import spoon.reflect.CtModel
 
@@ -84,6 +76,8 @@ class DXBuild implements Plugin<Project> {
             project.tasks.create(ExtractNatives.NAME, ExtractNatives)
 
             project.tasks.compileJava.dependsOn(BuildConfigTask.NAME)
+
+            project.tasks.create(CleanAllTask.NAME, CleanAllTask)
 
             project.tasks.installDist {
 
