@@ -11,7 +11,7 @@ class CleanAllTask extends DefaultTask {
         description = 'Clean the current project and all included projects'
 
         dependsOn(project.gradle.includedBuilds*.task(':clean'))
-        dependsOn(project.task(':clean'))
+        dependsOn(project.tasks.findByName('clean'))
     }
 
     @TaskAction
