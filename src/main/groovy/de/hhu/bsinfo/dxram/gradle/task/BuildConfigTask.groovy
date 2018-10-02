@@ -17,10 +17,16 @@ import javax.lang.model.element.Modifier
 
 class BuildConfigTask extends DefaultTask {
     public static final String NAME = "generateBuildConfig"
+    public static final String TYPES_FILE = "types.gradle"
+    public static final String OUTPUT_DIR = "generated"
+    public static final String DEFAULT_PACKAGE = "generated"
 
     BuildConfigTask() {
         group = 'build'
         description = 'Generates the build configuration class'
+
+        inputs.files("${project.rootDir}/${TYPES_FILE}")
+        outputs.dir("${project.buildDir}/${OUTPUT_DIR}")
     }
 
     @TaskAction
@@ -59,9 +65,9 @@ class BuildConfigTask extends DefaultTask {
                 .build()
 
         String packageName = buildConfig.packageName
-        packageName = packageName.isEmpty() ? "${project.group}.${project.name}.generated" : packageName;
+        packageName = packageName.isEmpty() ? "${project.group}.${project.name}.${DEFAULT_PACKAGE}" : packageName;
 
         JavaFile javaFile = JavaFile.builder(packageName, classSpec).build()
-        javaFile.writeTo(new File(project.buildDir, "generated"))
+        javaFile.writeTo(new File(project.buildDir, OUTPUT_DIR))
     }
 }
