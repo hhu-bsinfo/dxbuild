@@ -12,5 +12,10 @@ class ExtendedTestTask extends Test {
         setTestClassesDirs(project.sourceSets.extTest.output.classesDirs)
         setClasspath(project.sourceSets.extTest.runtimeClasspath)
         outputs.upToDateWhen { false }
+
+        // Run every test in a dedicated JVM to avoid pollution on "distributed" tests over localhost
+        forkEvery = 1
+        // Limit parallel tests to avoid clashes
+        maxParallelForks = 1
     }
 }
